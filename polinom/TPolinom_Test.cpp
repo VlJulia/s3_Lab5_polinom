@@ -146,6 +146,7 @@ int main()
 	p.AddMonom(TMonom(2, 1, 4, 3));
 	p.AddMonom(TMonom(1, 1, 6, 3));
 	TPolinom p2 = p;
+	cout << (p2 == p);
 	p.Clear();
 	p.AddMonom(TMonom(1, 3, 6, 3));
 	cout << "p2\n" << p2 << endl << endl;

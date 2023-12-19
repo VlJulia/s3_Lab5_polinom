@@ -15,7 +15,6 @@ struct TMonom
 
 
 	bool operator==(const TMonom& other) { return ((index == other.index) && (coef == other.coef)); }
-	
 	bool operator>(const TMonom& other);
 
 	bool operator<(const TMonom& other);
