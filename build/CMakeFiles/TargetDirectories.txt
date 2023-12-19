@@ -1,0 +1,7 @@
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/CMakeFiles/ALL_BUILD.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/CMakeFiles/ZERO_CHECK.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/gtest/CMakeFiles/gtest.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/listlib/CMakeFiles/listlib.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/polinom/CMakeFiles/polinom.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/polinomlib/CMakeFiles/polinomlib.dir
+D:/учеба/3 семестр/Алгоритмы и сд/Lab0812/s3_Lab5_polinom/build/polinomtest/CMakeFiles/polinomtest.dir
