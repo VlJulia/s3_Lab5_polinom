@@ -162,6 +162,9 @@ int main()
 
 	TPolinom p4 = p2 + p3;
 	cout << "p4 = p2*p3 \n" << p4 << endl << endl;
+	TPolinom p5("4X^9YZ - 5XZ");
+	cout << p5;
+	cout << p5.ToString() << endl;
 	cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
 	return 0;
 
