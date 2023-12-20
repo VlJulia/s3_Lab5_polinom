@@ -20,9 +20,20 @@ struct TMonom
 	bool operator<(const TMonom& other);
 
 	TMonom operator=(const TMonom& other);
+
 	friend ostream& operator<<(ostream& os, const TMonom& obj) {
 		if (&obj == nullptr) { return os; }
-		os << obj.coef << " index " << obj.index;
+		os << obj.coef;
+		int a = obj.index;
+		if ((a / 100 != 0) && (a / 100 != 1)) { os<<"X^"; os<< std::to_string(a / 100); }
+		if (a / 100 == 1)  os<<"X"; 
+		a %= 100;
+		//std::cout << a;
+		if ((a / 10 != 0) && (a / 10 != 1)) { os << "Y^"; os << std::to_string(a / 10); }
+		if (a / 10 == 1) os << "Y";
+		a %= 10;
+		if ((a != 0) && (a != 1)) { os << "Z^"; os << std::to_string(a); }
+		if (a == 1) os << "Z"; 
 		return os;
 	}
 };

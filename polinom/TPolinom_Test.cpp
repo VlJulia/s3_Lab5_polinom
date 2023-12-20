@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <thread>
 #include "TList.h"
 #include "TPolinom.h"
 #include "THeadList.h"
@@ -8,6 +10,8 @@ using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "ru");
+	cout.precision(2);
+
 	cout << "TLIST" << endl;
 	TList<int> t;
 	cout << "вставить в начало 0,1" << endl;
@@ -160,14 +164,36 @@ int main()
 	cout << "p3 add 1, 1, 6, 3\n" << p3 << endl << endl;
 	p3.MultMonom(TMonom(1, 1, 6, 3));
 	cout << "p3 mult 1, 1, 6, 3\n" << p3 << endl << endl;
-
+	p2.AddMonom(TMonom(1, 3, 2, 6));
 	TPolinom p4 = p2 + p3;
-	cout << "p4 = p2*p3 \n" << p4 << endl << endl;
+	cout << "\np2  =" << p2.ToString();
+	cout << "\np3  =" << p3.ToString();
+	cout << "\np4 = p2+p3 \n" << p4.ToString() << endl << endl;
 	TPolinom p5("4X^9YZ - 5XZ");
 	cout << p5;
 	cout << p5.ToString() << endl;
 	cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-	return 0;
+	
+
+	/*TPolinom p,p2;
+	int n = 1000;
+
+
+	for (int i = 0; i < n; i++) p.AddMonom(TMonom(rand()%10, rand() % 10, rand() % 10, rand() % 10));
+	for (int i = 0; i < n; i++) p2.AddMonom(TMonom(rand() % 10, rand() % 10, rand() % 10, rand() % 10));
+	p.Reset();
+	p2.Reset();
+	cout << "----------------- ";
+	int i=0;
+	auto start = chrono::high_resolution_clock::now();
+	try {
+		p* p2;
+		}
+		catch (...) { cout << "i is " << i << endl; };
+	auto end = chrono::high_resolution_clock::now();
+	chrono::duration<double> d = end - start;
+	cout << "----------------- " << d.count() << " ------------------------------";
+	return 0;*/
 
 	// здесь должна быть проверка работоспособности написанных вами классов
 	

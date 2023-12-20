@@ -261,6 +261,7 @@ TPolinom TPolinom::operator*(double c)
 {
 	Reset();
 	if (IsEmpty()) return *this;
+	if (c == 0) { TPolinom* tmp = new TPolinom(); return *tmp; }
 	TPolinom* tmp = new TPolinom(*this);
 	tmp->Reset();
 	while (!tmp->IsEnd()) {
@@ -321,7 +322,17 @@ string TPolinom::ToString()
 	while (!IsEnd())
 	{
 		tmp = GetCurrentItem();
-		result += std::to_string(tmp.GetCoef());
+		if (tmp.GetCoef() > 0) result += '+';
+		string stmp = std::to_string(tmp.GetCoef());
+		bool u = false;
+		for (int i = 0; i < stmp.size(); i++) {
+			if (u) {
+				if (stmp[i] != '0') result += stmp[i];
+				else if ((i > 0) && (stmp[i - 1] == ',')) result += stmp[i];
+			}
+			else  result += stmp[i];
+			if ((!u) && (stmp[i] == ',')) u = true;
+		}
 		int a = tmp.GetIndex();
 		if ((a / 100 != 0)&& (a / 100 != 1)) { result += "X^"; result += std::to_string(a / 100); }
 		if (a / 100 == 1) { result += "X"; }
@@ -337,7 +348,17 @@ string TPolinom::ToString()
 	}
 
 	tmp = GetCurrentItem();
-	result += std::to_string(tmp.GetCoef());
+	if (tmp.GetCoef() > 0) result += '+';
+	string stmp = std::to_string(tmp.GetCoef());
+	bool u = false;
+	for (int i = 0; i < stmp.size(); i++) {
+		if (u) {
+			if (stmp[i] != '0') result += stmp[i];
+			else if ((i > 0) && (stmp[i - 1] == ',')) result += stmp[i];
+		}
+		else  result += stmp[i];
+		if ((!u) && (stmp[i] == ',')) u = true;
+	}
 	int a = tmp.GetIndex();
 	if ((a / 100 != 0) && (a / 100 != 1)) { result += "X^"; result += std::to_string(a / 100); }
 	if (a / 100 == 1) { result += "X"; }
