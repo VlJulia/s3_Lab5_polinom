@@ -174,68 +174,87 @@ TPolinom& TPolinom::operator=(TPolinom& other)
 void TPolinom::AddMonom(TMonom m)
 {
 	//if (!IsEmpty()) std::cout << GetCurrentItem();
+
 	if (m.GetCoef() == 0) return;
+
+	if (IsEmpty()) { InsertFirst(m);  return; }
+
+	if (((length == 1) && (pFirst->value.index < m.index))) { InsertLast(m);  
+	return; }
+	if (((length == 1) && (pFirst->value.index > m.index))) {
+		InsertFirst(m);
+		return;
+	}
+
 	Reset();
-	TMonom* monom = new TMonom(m);
-	if (!IsEmpty()) {
-		while ((GetCurrentItem().index < m.index) && (!IsEnd())) GoNext();
-		if (GetCurrentItem().index == m.index) {
-			pCurrent->value.coef += m.coef;
-			if (pCurrent->value.coef == 0) { DeleteCurrent(); length++;  return; }
+
+	while ((GetCurrentItem().index < m.index)&&(!IsEnd())) { GoNext(); }
+
+	if (GetCurrentItem().index == m.index) {
+		pCurrent->value.coef += m.coef;
+		if (pCurrent->value.coef == 0) {
+			DeleteCurrent(); length++;  
+			//std::cout << "  2   MONOM =" << m << " Polinom is  " << *this; 
 			return;
 		}
-		if (IsEnd()) { 
-			if(GetCurrentItem().index > m.index) InsertFirst(m);
-			else InsertLast(*monom); return; }
-		else InsertCurrent(*monom);
-		
+		//std::cout << "  2   MONOM =" << m << " Polinom is  " << *this;
+		return;
 	}
-	else  InsertFirst(*monom);
+	if (GetCurrentItem().index < m.index) {
+		InsertLast(m); return;
+	}
+	if (GetCurrentItem().index > m.index) {
+		InsertCurrent(m); return;
+	}
+	//std::cout << "  2   MONOM =" << m << " Polinom is  " << *this;
 	
 }
 
 TPolinom TPolinom::MultMonom(TMonom monom)
 {
 	if (IsEmpty()) return *this;
-	TPolinom tmp(*this);
-	Clear();
-	tmp.Reset();
-	while (!tmp.IsEnd())
+	if (monom.coef == 0) { Clear(); return *this; }
+	Reset();
+	TMonom m;
+	while (!IsEnd())
 	{
-		if (tmp.pCurrent->value == monom) {
-		AddMonom(monom);
-		}
-		tmp.GoNext();
+		m.SetCoef(pCurrent->value.GetCoef() * monom.GetCoef());
+		m.SetIndex(pCurrent->value.index + monom.GetIndex());
+		SetCurrentItem(m);
+		GoNext();
 	}
-	if (tmp.pCurrent->value == monom) {
-		AddMonom(monom);
-	}
+		m.SetCoef(pCurrent->value.coef * monom.GetCoef());
+		m.SetIndex(pCurrent->value.index + monom.GetIndex());
+		SetCurrentItem(m);
 	return *this;
 }
 
 TPolinom& TPolinom::operator+(TPolinom& other)
 {
 	if (other.IsEmpty()) return *this;
+	//std::cout << "Other " << other<<endl;
 	if (this->IsEmpty()) return other;
-	if (length >= other.length) { TPolinom* tmp = new TPolinom(*this); 
+
+	if (length >= other.length) {
+		TPolinom* tmp = new TPolinom(*this);
+		//std::cout << "   +  tmp 1  " << *tmp ;
 	other.Reset();
 	while (!other.IsEnd()) {
 		tmp->AddMonom(other.GetCurrentItem());
+		//std::cout << "   +  tmp "  << *tmp ;
 		other.GoNext();
 	}
-	if (!other.IsEmpty()) tmp->AddMonom(other.GetCurrentItem());
+	tmp->AddMonom(other.GetCurrentItem());
+	//std::cout << "   +  tmp r  " << *tmp;
 	return *tmp;
 	}
-	else {
-		return (other+*this);
-	}
-
-	return *this;
+	else return (other + *this);
 }
 
 TPolinom TPolinom::AddPolinom(TPolinom& other)
 {
-	return (*this+other);
+	*this = *this + other;
+	return *this;
 }
 
 TPolinom TPolinom::operator*(double c)
@@ -259,26 +278,21 @@ TPolinom TPolinom::operator*(TPolinom& other)
 
 	if (other.IsEmpty()) return other;
 	if (IsEmpty()) return *this;
-	TPolinom* n = new TPolinom;
-	if (other.pFirst->value > pLast->value) return *n;
-	if (other.pLast->value < pFirst->value) return *n;
-	TPolinom* tmp = new TPolinom();
+	TPolinom* tmp = new TPolinom(*this);
+	TPolinom* ans = new TPolinom();
 	other.Reset();
 	Reset();
-	TMonom o, t;
-	while ((!other.IsEnd())&&(!IsEnd())) {
-		o = other.GetCurrentItem();
-		t = GetCurrentItem();
-		if (o == t) { tmp->AddMonom(o); GoNext(); other.GoNext(); continue; }
-		if (o > t) GoNext();
-		else other.GoNext();
+	while (!other.IsEnd()) {
+		tmp->MultMonom(other.GetCurrentItem());
+	    //std::cout << "TMP" << *tmp;
+		ans->AddPolinom(*tmp);
+		//std::cout << "ans" << *ans;
+		tmp = this;
+		other.GoNext();
 	}
-	o = other.GetCurrentItem();
-	t = GetCurrentItem();
-	if (o==t) tmp->AddMonom(o);
-	return *tmp;
-
-	return *this;
+	tmp->MultMonom(other.GetCurrentItem());
+	ans->AddPolinom(*tmp);
+	return *ans;
 }
 
 bool TPolinom::operator==(TPolinom& other)

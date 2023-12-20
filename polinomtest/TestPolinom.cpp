@@ -95,12 +95,15 @@ TEST(Polinom, Correct_constant_multiply) {
 
 TEST(Polinom, Correct_monom_multiply) {
 	TPolinom p;
-	p.AddMonom(TMonom(3, 1, 2, 3));
-	p.AddMonom(TMonom(2, 1, 4, 3));
-	p.AddMonom(TMonom(1, 1, 6, 3));
-	p.MultMonom(TMonom(3, 1, 2, 3));
-	//std::cout << "ddsaddsa";
-	bool ans = (p.GetCurrentItem() == TMonom(3, 1, 2, 3));
+	p.AddMonom(TMonom(3, 1, 0, 1));
+	p.AddMonom(TMonom(1, 1, 2, 1));
+	p.MultMonom(TMonom(3, 2, 2, 2));
+	TPolinom p2;
+	p2.AddMonom(TMonom(9, 3, 2, 3));
+	p2.AddMonom(TMonom(3, 3, 4, 3));
+	p2.Reset();
+	//std::cout << p<<"ddsaddsa"<<p2;
+	bool ans = (p== p2);
 	EXPECT_EQ(1, ans);
 }
 
@@ -119,12 +122,18 @@ TEST(Polinom, Correct_multiply_polinom1) {
 	TPolinom p;
 	p.AddMonom(TMonom(3, 1, 2, 3)); 
 	p.AddMonom(TMonom(2, 1, 4, 3));
-	p.AddMonom(TMonom(1, 1, 6, 3)); 
-	TPolinom p2 = p;
-	p2.AddMonom(TMonom(1, 3, 6, 3));
+	TPolinom p2;
+	p2.AddMonom(TMonom(1, 3, 1, 3));
+	p2.AddMonom(TMonom(1, 2, 2, 2));
 	TPolinom p3 = p2 * p;
-	//std::cout << p << "  " << p3;
-	bool ans = (p3 == p);
+	TPolinom p4;
+	p4.AddMonom(TMonom(3, 4, 3, 6));
+	p4.AddMonom(TMonom(3, 3, 4, 5));
+	p4.AddMonom(TMonom(2, 4, 5, 6));
+	p4.AddMonom(TMonom(2, 3, 6, 5));
+
+	//std::cout << p3 << "  " << p4;
+	bool ans = (p3 == p4);
 	EXPECT_EQ(1, ans);
 }
 
@@ -132,9 +141,7 @@ TEST(Polinom, Correct_multiply_polinom2) {
 	TPolinom p;
 	p.AddMonom(TMonom(3, 1, 2, 3));
 	p.AddMonom(TMonom(2, 1, 4, 3)); 
-	p.AddMonom(TMonom(1, 1, 6, 3));
 	TPolinom p2 ;
-	p2.AddMonom(TMonom(1, 3, 8, 3));
 	TPolinom p3 = p2 * p;
 	//std::cout << p << "  " << p3;
 	bool ans = (p3.IsEmpty());
